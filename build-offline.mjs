@@ -1,0 +1,13 @@
+import fs from 'node:fs/promises';
+const html=await fs.readFile(new URL('./dist/index.html',import.meta.url),'utf8');
+const css=await fs.readFile(new URL('./dist/style.css',import.meta.url),'utf8');
+const appearance=(await fs.readFile(new URL('./dist/appearance.mjs',import.meta.url),'utf8')).replace(/^export /gm,'');
+const physics=(await fs.readFile(new URL('./dist/physics.mjs',import.meta.url),'utf8')).replace(/^export /gm,'');
+const rules=(await fs.readFile(new URL('./dist/rules.mjs',import.meta.url),'utf8')).replace(/^export /gm,'').replace(/^import .*;\r?\n/gm,'');
+const app=(await fs.readFile(new URL('./dist/app.mjs',import.meta.url),'utf8')).replace(/^import .*;\r?\n/gm,'');
+const offline=html.replace('<link rel="stylesheet" href="style.css">',()=>`<style>${css}</style>`).replace('<script type="module" src="app.mjs"></script>',()=>`<script type="module">${appearance}\n${physics}\n${rules}\n${app}</script>`);
+await fs.writeFile(new URL('./粒子之间.html',import.meta.url),offline);
+await fs.mkdir(new URL('./web-dist/',import.meta.url),{recursive:true});
+await fs.writeFile(new URL('./web-dist/index.html',import.meta.url),offline);
+await fs.copyFile(new URL('./LICENSE',import.meta.url),new URL('./web-dist/LICENSE',import.meta.url));
+console.log('Created offline file: 粒子之间.html');

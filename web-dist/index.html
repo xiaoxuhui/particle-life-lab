@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0c1015"><meta name="description" content="撒下粒子，调整吸引与排斥，观察微小规则如何形成不断变化的图案。"><title>粒子之间 · 互动实验台</title><style>:root{color-scheme:dark;font-family:Inter,"Segoe UI","Microsoft YaHei",sans-serif;color:#e6edf1;background:#0c1015;font-size:16px;--muted:#89969f;--line:#252e36;--accent:#8ae7c9}*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button,select{cursor:pointer}button{border:1px solid #343e47;background:#1c252d;color:#dde6eb;border-radius:7px;padding:9px 14px;font-size:.875rem;transition:background .18s,border-color .18s}button:hover{background:#2a3740;border-color:#6b858b}button:focus-visible,input:focus-visible,select:focus-visible,canvas:focus-visible{outline:2px solid var(--accent);outline-offset:3px}button.primary,button.accent{color:#10271f;background:var(--accent);border-color:var(--accent);font-weight:600}button.primary:hover,button.accent:hover{background:#aaf7df}.topbar{height:88px;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 30px;gap:20px;background:#11171d}.brand{display:flex;align-items:center;gap:13px}.brand-icon{font-size:43px;color:var(--accent);line-height:1}.brand h1{font-size:1.3rem;letter-spacing:.14em;margin:0 0 4px;font-weight:600}.brand-sub{font-size:.65rem;letter-spacing:.16em;color:var(--muted)}.top-note{margin-left:auto;color:var(--muted);font-size:.875rem}.icon-button{width:32px;height:32px;border-radius:50%;padding:0;color:#b7c7cd}main{display:grid;grid-template-columns:minmax(0,1fr) 374px;height:calc(100dvh - 88px);min-height:720px}.universe{position:relative;overflow:hidden;background:#090e14}canvas{position:absolute;width:100%;height:100%;display:block;touch-action:none;cursor:crosshair}.canvas-top,.canvas-bottom{position:absolute;left:30px;right:30px;display:flex;justify-content:space-between;align-items:center;pointer-events:none}.canvas-top{top:25px}.live-label{font-size:.8125rem;color:#9fbab3;display:flex;align-items:center;gap:8px;background:#101a20bf;border:1px solid #2a383d;padding:7px 10px;border-radius:5px}.live-label i{width:6px;height:6px;background:#8ae7c9;border-radius:50%}.live-label.paused i{background:#f3cc71}.stats{font-size:.8125rem;color:#82909e;font-variant-numeric:tabular-nums}.stats #count{color:#e7f1f4}.divider{padding:0 11px;color:#3f4d57}.canvas-caption{position:absolute;left:40px;top:110px;pointer-events:none}.eyebrow{font-size:.75rem;letter-spacing:.12em;color:#81a098}.canvas-caption h2{font-size:clamp(1.8rem,3.2vw,3rem);line-height:1.4;font-weight:400;letter-spacing:.12em;margin:18px 0;color:#e0eae8cc}.canvas-caption p{font-size:.875rem;color:#8a9d9c}.canvas-bottom{bottom:26px}.canvas-tools{display:flex;gap:8px;pointer-events:auto}.edge-note{color:#6c8189;font-size:.75rem}.panel{background:#12191f;overflow-y:auto;border-left:1px solid var(--line);scrollbar-width:thin;scrollbar-color:#35444a transparent}.control-section{padding:23px 24px;border-bottom:1px solid var(--line)}.section-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:8px}.section-heading h2{margin:0;font-size:1rem;font-weight:600;letter-spacing:.06em}.quiet{font-size:.75rem;color:#81928e}.field-row{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:.875rem}.field-row label{color:#b3c0c7}select{border:1px solid #35414b;background:#1c272f;color:#dce7eb;border-radius:5px;font-size:.8125rem;padding:6px 30px 6px 12px;appearance:none;background-image:linear-gradient(45deg,transparent 50%,#a7b7bf 50%),linear-gradient(135deg,#a7b7bf 50%,transparent 50%);background-position:calc(100% - 16px) 13px,calc(100% - 12px) 13px;background-size:4px 4px;background-repeat:no-repeat}.palette{display:flex;flex-wrap:wrap;gap:7px;margin:17px 0}.species-button{padding:8px 10px;min-width:36px;display:flex;align-items:center;justify-content:center;gap:6px;color:#9eacb6;border-color:#2c3840;font-size:.8125rem;background:transparent}.species-button.active{background:#273a3b;border-color:#85c5b3;color:#e3f5ef}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--c);box-shadow:0 0 7px color-mix(in srgb,var(--c) 30%,transparent)}.scatter-row{display:flex;align-items:flex-end;gap:12px}.amount-label{font-size:.75rem;color:var(--muted);display:flex;flex-direction:column;gap:6px;width:88px}input[type=number]{width:80px;padding:7px 7px;border:1px solid #35414b;background:#0e151b;color:#e7eff3;border-radius:5px;font-size:.875rem;font-variant-numeric:tabular-nums}.amount-label input{width:100%}.scatter-row .accent{flex:1;height:35px;padding:6px;font-size:.875rem}.hint{font-size:.75rem;color:#8d9ba5;line-height:1.8;margin:11px 0 0}.text-button{background:transparent;border:0;color:#a6b8bd;padding:0;font-size:.75rem}.text-button:hover{background:transparent;color:#b4f5df}.matrix-section .section-heading{margin-bottom:6px}.matrix-hint{margin:0 0 12px}.matrix-scroll{overflow-x:auto}table{width:100%;border-collapse:separate;border-spacing:4px;table-layout:fixed}th{font-size:.75rem;color:#c4d1d7;font-weight:500;height:25px}th:first-child{width:23px}.axis-label{font-size:.65rem;color:#627883}td{padding:0;height:37px}td button{font-size:.6875rem;letter-spacing:-.04em;font-variant-numeric:tabular-nums;padding:0;width:100%;height:35px;border-radius:4px;border:1px solid #ffffff0c;color:white;text-shadow:0 1px 3px #000d;background:var(--cell)}td button:hover{background:var(--cell);border-color:white}td button.selected{outline:2px solid #e7eeed;outline-offset:1px;border-color:#0d1518}.matrix-label{display:inline-flex;gap:4px;align-items:center}.matrix-label .dot{width:7px;height:7px}.legend{display:flex;align-items:center;gap:9px;font-size:.6875rem;color:#98a6b0;margin-top:14px}.gradient{flex:1;height:6px;border-radius:3px;background:linear-gradient(90deg,rgb(225,52,64),#000,rgb(0,205,102))}.zero-label{text-align:center;color:#77858f;font-size:.65rem;margin-top:4px}.editor{background:#0e151b;border:1px solid #29343d;border-radius:7px;padding:12px;margin-top:14px}.editor .field-row{font-size:.8125rem}.editor input[type=number]{width:76px;padding:4px 5px}.editor input[type=range]{background:linear-gradient(90deg,#e13440,#000,#00cd66);height:5px}.range-marks{display:flex;justify-content:space-between;font-size:.6875rem;color:#7d8e98}.range-marks #effect{color:#b1bfc5}.matrix-options{display:flex;align-items:center;justify-content:space-between;margin-top:14px}.checkbox{display:flex;gap:7px;align-items:center;font-size:.8125rem;color:#abbcc4;cursor:pointer}.checkbox input{accent-color:var(--accent);width:14px;height:14px;margin:0}.dynamics .section-heading{margin-bottom:15px}.slider-label{display:flex;justify-content:space-between;font-size:.8125rem;color:#aebec6;margin-top:16px}.slider-label output{font-size:.75rem;color:#91a6ac;font-variant-numeric:tabular-nums}input[type=range]{appearance:none;width:100%;height:3px;border-radius:3px;background:#33424c;display:block;margin:16px 0;cursor:pointer;accent-color:var(--accent)}input[type=range]::-webkit-slider-thumb{appearance:none;width:12px;height:12px;border-radius:50%;background:#b9dfd5;border:2px solid #10191c;box-shadow:0 0 0 1px #7baba0}input[type=range]::-moz-range-thumb{width:10px;height:10px;border-radius:50%;background:#b9dfd5;border:1px solid #10191c}.trail-option{margin-top:20px}.panel-footer{padding:20px;text-align:center;color:#637980;font-size:.75rem}.toast{position:absolute;bottom:88px;left:50%;transform:translateX(-50%);background:#20322fed;border:1px solid #486b60;border-radius:6px;padding:10px 16px;font-size:.875rem;pointer-events:none;opacity:0;transition:opacity .2s;white-space:nowrap}.toast.visible{opacity:1}#empty{position:absolute;top:52%;left:0;width:100%;text-align:center;color:#c3d6d3;line-height:2;pointer-events:none}#empty span{font-size:.875rem;color:#7f969a}dialog{max-width:530px;width:calc(100% - 32px);background:#151f26;color:#c5d3db;border:1px solid #3d565d;border-radius:14px;padding:32px;line-height:1.9}dialog::backdrop{background:#02070bcc;backdrop-filter:blur(5px)}dialog h2{font-size:1.35rem;color:#f0f5f5;margin:8px 0 20px}dialog p{font-size:.875rem}.close-button{position:absolute;right:12px;top:12px;padding:0;width:30px;height:30px;font-size:22px;background:transparent;border:0}.green{color:#43d890}.red{color:#f1757a}@media(min-width:1500px){main{grid-template-columns:minmax(0,1fr) 400px}.control-section{padding:25px 30px}}@media(max-width:1000px){.topbar{padding:0 20px}.canvas-top,.canvas-bottom{left:20px;right:20px}.canvas-caption{left:26px}.edge-note{display:none}main{grid-template-columns:minmax(0,1fr) 350px}}@media(max-width:720px){.topbar{height:74px;padding:0 18px}.brand-icon{font-size:36px}.brand h1{font-size:1.125rem}.brand-sub{font-size:.55rem}.top-note{display:none}.icon-button{margin-left:auto}main{display:flex;flex-direction:column;height:auto;min-height:0}.universe{height:62dvh;min-height:400px}.panel{overflow:visible;border-left:0;border-top:1px solid var(--line)}.control-section{padding:22px 24px}.canvas-caption{top:83px;left:25px}.canvas-caption h2{font-size:1.7rem;margin:10px 0}.canvas-caption p{font-size:.8125rem}.canvas-top{top:18px}.canvas-bottom{bottom:20px}.canvas-tools button{padding:9px 12px}.stats{font-size:.75rem}.matrix-scroll{max-width:490px;margin:auto}td{height:40px}td button{height:37px;font-size:.75rem}.panel-footer{padding:24px}.toast{max-width:90%;white-space:normal;text-align:center}.brand-sub{letter-spacing:.12em}}@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}.save-row{display:flex;gap:8px;margin-bottom:12px}.save-row input{min-width:0;flex:1;width:100%;background:#0e151b;color:#e7eff3;border:1px solid #35414b;border-radius:5px;padding:9px 10px;font-size:.875rem}.save-row button{white-space:nowrap;padding:9px 12px}.saved-rules>select{width:100%;font-size:.875rem;padding-top:9px;padding-bottom:9px;background-position:calc(100% - 16px) 16px,calc(100% - 12px) 16px}.rule-actions{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}.rule-actions button{font-size:.875rem;padding:8px 10px}button:disabled{opacity:.4;cursor:default}button:disabled:hover{background:#1c252d;border-color:#343e47}
+.species-input{display:flex;align-items:center;gap:8px;color:#abbcc4;font-size:.875rem}.species-input input{width:88px}
+.canvas-bottom{flex-direction:column;align-items:stretch;gap:10px}.playback-row{display:flex;justify-content:space-between;align-items:center;gap:10px}.step-tools{display:flex;flex-wrap:wrap;align-items:center;gap:8px;pointer-events:auto}.step-tools button{font-size:.875rem;background:#15232be8}.step-custom{display:flex;align-items:center;gap:6px}.step-custom input{width:72px;background:#0e171ee8}.step-note{margin:0;font-size:.75rem;color:#8ba2ac;line-height:1.6}.toast{bottom:175px}@media(max-width:720px){.step-tools{gap:6px}.step-tools button{padding:8px 9px;font-size:.8125rem}.step-custom{gap:5px}.step-custom input{width:62px;padding:7px 5px}.step-note{font-size:.75rem}.canvas-caption{top:77px}.canvas-caption h2{font-size:1.5rem;line-height:1.3}.canvas-caption p{margin-top:8px}.step-tools #cancel-step{color:#f3cc71}}
+.speed-row{margin-top:20px}.speed-row label{display:flex;flex-direction:column;gap:5px}.speed-row output{color:#91a6ac;font-size:.75rem}.speed-input{display:flex;align-items:center;gap:7px;color:#aebec6;font-size:.875rem}.speed-input input{width:82px}.speed-presets{display:flex;gap:7px;margin-top:13px}.speed-presets button{flex:1;font-size:.875rem;padding:8px 6px}.speed-presets button[aria-pressed=true]{border-color:#85c5b3;background:#273a3b;color:#e3f5ef}
+.random-options{margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}.candidate-label{display:block;font-size:.875rem;color:#b3c0c7;margin:14px 0 8px}#random-values{display:block;width:100%;min-height:66px;resize:vertical;box-sizing:border-box;border:1px solid #35414b;background:#0e151b;color:#e7eff3;border-radius:6px;padding:9px 10px;font:inherit;font-size:.875rem;line-height:1.7}#random-values:disabled{opacity:.45}#random-values[aria-invalid=true]{border-color:#ef7e83}textarea:focus-visible{outline:2px solid var(--accent);outline-offset:3px}.candidate-error{font-size:.875rem;color:#ff9b9f;line-height:1.6;margin:9px 0 0}td button{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+[hidden]{display:none!important}.panel{min-width:0}.matrix-pagination{padding:10px 0 14px;display:grid;gap:10px}.matrix-pagination select{max-width:165px}.color-settings{border:1px solid var(--line);border-radius:7px;padding:12px;margin:16px 0;color:#b3c0c7;font-size:.875rem}.color-settings summary{cursor:pointer;color:#d0e5de}.color-editor{margin-top:14px}.color-editor input[type=number]{width:88px}.color-editor input[type=color]{width:60px;height:34px;border:1px solid #465b61;background:#142028;border-radius:5px;padding:3px;cursor:pointer}.color-presets{display:flex;flex-wrap:wrap;gap:7px;margin:14px 0}.color-presets button{display:flex;align-items:center;gap:5px;padding:7px 9px;font-size:.875rem}#type-pagination{margin:12px 0}.matrix-label{white-space:nowrap}
+</style></head>
+<body>
+<header class="topbar"><div class="brand"><span class="brand-icon" aria-hidden="true">✳</span><div><h1>粒子之间</h1><span class="brand-sub">PARTICLE INTERACTION LAB</span></div></div><div class="top-note">简单的规则，流动的世界。</div><button id="help" class="icon-button" aria-label="使用说明">?</button></header>
+<main>
+ <section class="universe" aria-label="粒子模拟区域">
+  <canvas id="canvas" aria-label="粒子画布，按住并拖动可撒下粒子" tabindex="0"></canvas>
+  <div class="canvas-top"><span class="live-label" id="status"><i></i> 正在演化</span><div class="stats"><span id="count">0</span> 粒子 <span class="divider">/</span> <span id="fps">60</span> 画面帧/秒</div></div>
+  <div class="canvas-caption"><span class="eyebrow">微观世界 · 自由实验</span><h2>让关系，<br>自己生长。</h2><p>按住画布，撒下一片粒子。</p></div>
+  <div id="empty" hidden>这里还很安静。<br><span>点“随机撒下”或在画布上拖动，开始实验。</span></div>
+  <div class="canvas-bottom"><div class="playback-row"><div class="canvas-tools"><button id="pause" class="primary">Ⅱ 暂停</button><button id="reset" title="保留规则，重新随机分布粒子">重新撒布</button><button id="clear">清空</button></div><span class="edge-note">边界相连 · 循环空间</span></div>
+   <div class="step-tools" role="group" aria-label="手动推进模拟"><button id="step-frame">前进 1 帧</button><button id="step-second">前进 1 秒</button><div class="step-custom"><label class="sr-only" for="step-count">前进帧数 N</label><input id="step-count" type="number" min="1" max="3600" step="1" value="60" aria-label="前进帧数 N"><button id="step-n">前进 N 帧</button></div><button id="cancel-step" hidden>停止推进</button></div>
+   <p id="step-progress" class="step-note" role="status" aria-live="polite">1 秒 = 60 帧 · 手动推进不受速度倍率影响</p>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+ </section>
+ <aside class="panel">
+  <section class="control-section"><div class="section-heading"><h2>撒下粒子</h2><span class="quiet">播种你的世界</span></div>
+   <div class="field-row"><label for="species">粒子种类数</label><div class="species-input"><input id="species" type="number" min="1" step="1" value="6" aria-describedby="species-hint"><span>种</span></div></div>
+   <p id="species-hint" class="hint"></p>
+   <div class="palette" id="palette" role="group" aria-label="选择投放的粒子种类"></div>
+   <div id="type-pagination" class="field-row" hidden><label for="type-page">种类分页</label><select id="type-page"></select></div>
+   <details class="color-settings"><summary>粒子颜色设置</summary><div class="field-row color-editor"><label for="color-type">第几种粒子</label><input id="color-type" type="number" min="1" step="1" value="1"></div><div class="field-row color-editor"><label id="color-type-label" for="type-color">A 的颜色</label><input id="type-color" type="color" value="#ff5555" aria-label="所选粒子的颜色"></div><div id="color-presets" class="color-presets" role="group" aria-label="七种基本颜色"></div><button id="auto-colors" class="text-button">全部恢复自动配色</button><p class="hint">红橙黄绿青蓝紫；种类增多时自动细分整个色环，也可单独指定颜色。</p></details>
+   <div class="scatter-row"><label class="amount-label">投放数量<input id="amount" type="number" value="150" min="1" max="1800" step="1"></label><button id="scatter" class="accent">✳ 随机撒下</button></div>
+   <p class="hint">随机撒布到整个画布，也可按住画布连续投放。</p>
+  </section>
+  <section class="control-section matrix-section"><div class="section-heading"><h2>作用矩阵</h2><button id="random-rules" class="text-button">随机规则</button></div>
+   <p class="hint matrix-hint">行是受力粒子，列是影响它的粒子。点击格子编辑。</p>
+   <div id="matrix-pagination" class="matrix-pagination" hidden><div class="field-row"><label for="matrix-row-page">受力粒子（行）</label><select id="matrix-row-page"></select></div><div class="field-row"><label for="matrix-col-page">影响粒子（列）</label><select id="matrix-col-page"></select></div><p id="matrix-page-note" class="hint"></p></div>
+   <div class="matrix-scroll"><table id="matrix" aria-label="粒子吸引与排斥作用表"></table></div>
+   <div class="legend"><span>−1 排斥</span><div class="gradient" aria-hidden="true"></div><span>+1 吸引</span></div><div class="zero-label">0 无作用</div>
+   <div class="editor"><div class="field-row"><label id="pair-label" for="coefficient">A 受 A 影响</label><input type="number" id="coefficient" min="-1" max="1" step="any" value="0"></div><input id="coefficient-range" aria-label="选中粒子对的作用强度" type="range" min="-1" max="1" step="0.01" value="0"><div class="range-marks"><span>排斥</span><span id="effect">无作用</span><span>吸引</span></div></div>
+   <div class="matrix-options"><label class="checkbox"><input id="symmetric" type="checkbox">双向相同</label><button id="zero-rules" class="text-button">全部归零</button></div>
+   <div class="random-options"><label class="checkbox"><input id="restrict-random" type="checkbox">仅从列表中随机</label><label for="random-values" class="candidate-label">随机规则候选值</label><textarea id="random-values" rows="2" maxlength="4000" spellcheck="false" disabled aria-describedby="random-values-hint random-values-error">-1, -0.5, 0, 0.5, 1</textarea><p id="random-values-hint" class="hint">每个数必须在 −1～1 之间，用逗号、空格或换行分隔。启用后点“随机规则”抽取，新增种类的系数也从列表抽取。</p><p id="random-values-error" class="candidate-error" role="alert" hidden></p></div>
+  </section>
+  <section class="control-section saved-rules"><div class="section-heading"><h2>我的规则</h2><span id="saved-count" class="quiet">0 份收藏</span></div>
+   <form id="save-rule-form" class="save-row"><label class="sr-only" for="rule-name">规则名称</label><input id="rule-name" type="text" maxlength="80" placeholder="给这套规则起个名字" autocomplete="off"><button id="save-rule" class="accent" type="submit">保存当前</button></form>
+   <label class="sr-only" for="saved-rules">已保存的规则</label><select id="saved-rules"><option value="">选择一份收藏</option></select>
+   <div class="rule-actions"><button id="load-rule" disabled>读取</button><button id="export-rule">导出当前</button><button id="import-rule">导入</button><button id="delete-rule" disabled>删除</button></div>
+   <input id="import-rule-file" class="sr-only" type="file" accept=".json,application/json" tabindex="-1">
+   <p id="rule-storage-note" class="hint" role="status">保存种类、作用矩阵和世界参数。收藏留在此浏览器，导出文件可备份或分享；不保存粒子位置。</p>
+  </section>
+  <section class="control-section dynamics"><div class="section-heading"><h2>世界参数</h2><button id="defaults" class="text-button">恢复默认</button></div>
+   <label class="slider-label" for="radius">作用距离 <output id="radius-value">100</output></label><input id="radius" type="range" min="30" max="180" step="5" value="100">
+   <label class="slider-label" for="strength">作用强度 <output id="strength-value">1.0×</output></label><input id="strength" type="range" min="0.1" max="3" step="0.1" value="1">
+   <div class="field-row speed-row"><label for="speed">运行速度 <output id="speed-value">1.00×</output></label><div class="speed-input"><input id="speed" type="number" min="1" max="600" step="any" value="60" aria-describedby="speed-hint"><span>帧/秒</span></div></div>
+   <div class="speed-presets" role="group" aria-label="运行速度方案"><button type="button" data-fps="30" aria-pressed="false">慢速 30</button><button type="button" data-fps="60" aria-pressed="true">正常 60</button><button type="button" data-fps="120" aria-pressed="false">快速 120</button></div>
+   <p id="speed-hint" class="hint">输入 1～600，数值越小越慢，越大越快。粒子较多时，实际速度受设备性能影响。</p>
+   <label class="checkbox trail-option"><input id="trails" type="checkbox" checked>显示运动轨迹</label>
+  </section><footer class="panel-footer">每一次相遇，都由你定义。</footer>
+ </aside>
+</main>
+<dialog id="help-dialog"><button id="close-help" class="close-button" aria-label="关闭使用说明">×</button><span class="eyebrow">从一颗粒子开始</span><h2>探索粒子之间的关系</h2><p>选择一种粒子或“混合”，点击“随机撒下”投放；也可以直接按住画布拖动。画布获得焦点后，按空格暂停或继续。</p><p>作用表中，行是受力粒子，列是影响它的粒子。例如 A 行 B 列，控制 A 如何受到 B 的影响。</p><p><b class="green">正数：吸引</b>，越接近 +1 越绿、吸引越强。<b class="red">负数：排斥</b>，越接近 −1 越红、排斥越强。<b>黑色 0：没有作用</b>，数值接近零时逐渐变黑。粒子的自身颜色只用于区分种类。</p><p>“双向相同”让 A 对 B 和 B 对 A 的系数一致。取消勾选时，两个方向可以不同。粒子带有惯性，归零后会慢慢停下。粒子最多 1,800 颗。</p><button id="got-it" class="primary">开始实验</button></dialog>
+<script type="module">const MAX_TYPES=1024;
+const TYPE_PAGE_SIZE=16;
+const BASE_COLORS=['#ff5555','#ff9955','#ffe555','#66dd77','#55dddd','#6688ff','#b277ff'];
+function typeName(index){
+ let value=index+1,label='';
+ while(value>0){value--;label=String.fromCharCode(65+value%26)+label;value=Math.floor(value/26)}
+ return label;
+}
+function hueColor(hue){
+ const chroma=.9,x=chroma*(1-Math.abs((hue/60)%2-1)),offset=.06;
+ const rgb=hue<60?[chroma,x,0]:hue<120?[x,chroma,0]:hue<180?[0,chroma,x]:hue<240?[0,x,chroma]:hue<300?[x,0,chroma]:[chroma,0,x];
+ return '#'+rgb.map(channel=>Math.round((channel+offset)*255).toString(16).padStart(2,'0')).join('');
+}
+function generateColors(n,overrides=[]){
+ return Array.from({length:n},(_,i)=>overrides[i]??(n<=7?BASE_COLORS[i]:hueColor(i*360/n)));
+}
+
+const LIMIT = 1800;
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+function matrixColor(value) {
+  const v = clamp(Number(value) || 0, -1, 1);
+  return v >= 0 ? `rgb(0, ${Math.round(205*v)}, ${Math.round(102*v)})` : `rgb(${Math.round(-225*v)}, ${Math.round(-52*v)}, ${Math.round(-64*v)})`;
+}
+function createMatrix(n, random = Math.random, symmetric = false, candidates = null) {
+  if(candidates!==null&&(!Array.isArray(candidates)||candidates.length===0||!candidates.every(v=>Number.isFinite(v)&&v>=-1&&v<=1)))throw new Error('候选系数必须是 −1～1 之间的数字，且列表不能为空');
+  const next=()=>candidates===null?Math.round((random()*2-1)*100)/100:candidates[Math.floor(random()*candidates.length)];
+  const m = Array.from({length:n}, () => Array.from({length:n}, next));
+  if(symmetric) for(let i=0;i<n;i++) for(let j=0;j<i;j++) m[i][j]=m[j][i];
+  return m;
+}
+class World {
+  constructor(n=6) { this.n=n; this.particles=[]; this.matrix=createMatrix(n); this.range=100; this.strength=1; this.damping=.85; this.width=1000; this.height=700; }
+  add(x,y,type) { if(this.particles.length>=LIMIT) return false; this.particles.push({x:clamp(x,0,this.width),y:clamp(y,0,this.height),vx:0,vy:0,type:clamp(type,0,this.n-1)}); return true; }
+  scatter(count, type=-1) { for(let i=0;i<count;i++) this.add(Math.random()*this.width,Math.random()*this.height,type<0?Math.floor(Math.random()*this.n):type); }
+  step(dt=1) {
+    const ps=this.particles, range=this.range, w=this.width,h=this.height;
+    // A spatial grid visits only nearby particles. Opposite edges connect.
+    const cols=Math.max(1,Math.floor(w/range)),rows=Math.max(1,Math.floor(h/range)),cw=w/cols,ch=h/rows;
+    const grid=Array.from({length:cols*rows},()=>[]);
+    ps.forEach((p,i)=>grid[Math.min(rows-1,Math.floor(p.y/ch))*cols+Math.min(cols-1,Math.floor(p.x/cw))].push(i));
+    const decay=Math.pow(this.damping,dt);
+    for(let i=0;i<ps.length;i++) {
+      const p=ps[i],gx=Math.min(cols-1,Math.floor(p.x/cw)),gy=Math.min(rows-1,Math.floor(p.y/ch));
+      let ax=0,ay=0;
+      // Deduplicate cells on small screens with only one or two grid columns.
+      const cells=new Set();
+      for(let yy=-1;yy<=1;yy++) for(let xx=-1;xx<=1;xx++) cells.add(((gy+yy+rows)%rows)*cols+(gx+xx+cols)%cols);
+      for(const cell of cells) for(const j of grid[cell]) {
+        if(i===j) continue;
+        const q=ps[j],coefficient=this.matrix[p.type][q.type];
+        if(coefficient===0) continue;
+        let dx=q.x-p.x,dy=q.y-p.y;
+        if(dx>w/2)dx-=w;else if(dx<-w/2)dx+=w;
+        if(dy>h/2)dy-=h;else if(dy<-h/2)dy+=h;
+        const d=Math.hypot(dx,dy);
+        if(d===0||d>=range)continue;
+        const f=coefficient*(1-d/range)*.32*this.strength/Math.max(d,5);
+        ax+=dx*f;ay+=dy*f;
+      }
+      p.vx=clamp((p.vx+ax*dt)*decay,-5,5);p.vy=clamp((p.vy+ay*dt)*decay,-5,5);
+    }
+    for(const p of ps) {p.x=((p.x+p.vx*dt)%w+w)%w;p.y=((p.y+p.vy*dt)%h+h)%h;}
+  }
+}
+
+const RULE_STORAGE_KEY = 'particle-life-lab.rules.v1';
+function validateCandidateValues(values) {
+  if(!Array.isArray(values)||values.length===0)throw new Error('请至少填写一个候选系数');
+  if(!values.every(value=>typeof value==='number'&&Number.isFinite(value)&&value>=-1&&value<=1))throw new Error('每个候选系数都必须在 −1～1 之间，包含 −1 和 1');
+  return [...new Set(values)];
+}
+function parseCandidateValues(text) {
+  const normalized=text.trim().replace(/[−－]/g,'-');
+  const content=normalized.startsWith('[')&&normalized.endsWith(']')?normalized.slice(1,-1):normalized;
+  const tokens=content.split(/[\s,，、;；]+/u).filter(Boolean);
+  if(tokens.length===0)throw new Error('请至少填写一个候选系数');
+  if(!tokens.every(token=>/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:e[+-]?\d+)?$/i.test(token)))throw new Error('列表中只能填写数字，用逗号、空格或换行分隔');
+  return validateCandidateValues(tokens.map(Number));
+}
+function validateRule(input) {
+  const invalid = () => { throw new Error('规则文件无效，请选择本模拟器导出的 JSON 文件'); };
+  if(!input || typeof input!=='object') invalid();
+  const {name, n, matrix, range, strength, speed, symmetric, trails}=input;
+  if(typeof name!=='string'||!name.trim()||name.length>80||!Number.isInteger(n)||n<1||n>MAX_TYPES) invalid();
+  if(!Array.isArray(matrix)||matrix.length!==n||!matrix.every(row=>Array.isArray(row)&&row.length===n&&row.every(v=>Number.isFinite(v)&&v>=-1&&v<=1))) invalid();
+  if(!Number.isFinite(range)||range<30||range>180||!Number.isFinite(strength)||strength<.1||strength>3||!Number.isFinite(speed)||speed<1/60||speed>10||typeof symmetric!=='boolean'||typeof trails!=='boolean') invalid();
+  if(symmetric&&!matrix.every((row,i)=>row.every((v,j)=>v===matrix[j][i]))) invalid();
+  const rule={name:name.trim(),n,matrix:matrix.map(row=>row.slice()),range,strength,speed,symmetric,trails};
+  if(input.restrictRandom!==undefined||input.randomValues!==undefined){
+    if(typeof input.restrictRandom!=='boolean')invalid();
+    rule.restrictRandom=input.restrictRandom;rule.randomValues=validateCandidateValues(input.randomValues);
+  }
+  if(input.colorOverrides!==undefined){
+    if(!Array.isArray(input.colorOverrides)||input.colorOverrides.length!==n||!input.colorOverrides.every(color=>color===null||(typeof color==='string'&&/^#[0-9a-f]{6}$/i.test(color))))invalid();
+    rule.colorOverrides=input.colorOverrides.slice();
+  }
+  return rule;
+}
+function parseRuleFile(text) {
+  let data;try{data=JSON.parse(text)}catch{throw new Error('无法读取 JSON，请选择本模拟器导出的规则文件')}
+  if(data?.format!=='particle-life-rule'||data.version!==1)throw new Error('不支持这个规则文件格式或版本');
+  return validateRule(data.rule);
+}
+function readRuleLibrary(storage) {
+  const text=storage.getItem(RULE_STORAGE_KEY);
+  if(text===null)return [];
+  const data=JSON.parse(text);
+  if(data?.version!==1||!Array.isArray(data.rules))throw new Error('规则库格式无效');
+  const ids=new Set();
+  return data.rules.map(entry=>{
+    if(typeof entry.id!=='string'||!entry.id||ids.has(entry.id))throw new Error('规则编号无效');
+    ids.add(entry.id);return {id:entry.id,...validateRule(entry)};
+  });
+}
+function writeRuleLibrary(storage,rules) {
+  storage.setItem(RULE_STORAGE_KEY,JSON.stringify({version:1,rules}));
+}
+
+const $=id=>document.getElementById(id),canvas=$('canvas'),ctx=canvas.getContext('2d');
+const world=new World(6);let chosen=-1,pair=[0,0],paused=false,speed=1,pointer=null,last=0,accumulator=0,lastFps=0,frames=0,brushTime=0,toastTimer;
+let stepping=false,cancelStep=false;
+const defaultRandomValues=[-1,-.5,0,.5,1];let randomValues=defaultRandomValues.slice();
+let colorOverrides=Array(world.n).fill(null),colors=generateColors(world.n),colorType=0,typePage=0,matrixRowPage=0,matrixColPage=0;
+function notify(message){$('toast').textContent=message;$('toast').classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').classList.remove('visible'),2500)}
+function fmt(v){return v===0?'0':(v>0?'+':'')+(Number(v.toFixed(2))===v?v.toFixed(2):String(v))}
+function name(i){return typeName(i)}
+function dot(i){return `<span class="dot" style="--c:${colors[i]}"></span>`}
+function pageOptions(select,n,page){
+ const pages=Math.ceil(n/TYPE_PAGE_SIZE);
+ select.replaceChildren(...Array.from({length:pages},(_,index)=>new Option(`${index*TYPE_PAGE_SIZE+1}～${Math.min(n,(index+1)*TYPE_PAGE_SIZE)} 种`,String(index))));
+ select.value=page;
+}
+function palette(){
+ typePage=Math.min(typePage,Math.ceil(world.n/TYPE_PAGE_SIZE)-1);
+ const start=typePage*TYPE_PAGE_SIZE,indices=Array.from({length:Math.min(TYPE_PAGE_SIZE,world.n-start)},(_,i)=>start+i);
+ $('palette').innerHTML=`<button class="species-button ${chosen===-1?'active':''}" data-type="-1" aria-pressed="${chosen===-1}">混合</button>`+indices.map(i=>`<button class="species-button ${chosen===i?'active':''}" data-type="${i}" aria-label="投放第 ${i+1} 种 ${name(i)} 类粒子" aria-pressed="${chosen===i}">${dot(i)}${name(i)}</button>`).join('');
+ $('type-pagination').hidden=world.n<=TYPE_PAGE_SIZE;pageOptions($('type-page'),world.n,typePage);updateColorEditor();
+}
+function updateColorEditor(){
+ colorType=Math.min(colorType,world.n-1);$('color-type').max=world.n;$('color-type').value=colorType+1;$('type-color').value=colors[colorType];$('color-type-label').textContent=`${name(colorType)} 的颜色`;
+}
+function refreshColors(){colors=generateColors(world.n,colorOverrides);palette();renderMatrix()}
+function setTypeColor(color){colorOverrides[colorType]=color;refreshColors()}
+function matrixPages(){
+ const pages=Math.ceil(world.n/TYPE_PAGE_SIZE);matrixRowPage=Math.min(matrixRowPage,pages-1);matrixColPage=Math.min(matrixColPage,pages-1);
+ $('matrix-pagination').hidden=pages===1;pageOptions($('matrix-row-page'),world.n,matrixRowPage);pageOptions($('matrix-col-page'),world.n,matrixColPage);
+ $('matrix-page-note').textContent=`共 ${world.n.toLocaleString()} 种、${(world.n*world.n).toLocaleString()} 个系数，每页最多 ${TYPE_PAGE_SIZE}×${TYPE_PAGE_SIZE} 格。`;
+}
+function renderMatrix(){
+ matrixPages();
+ const rowStart=matrixRowPage*TYPE_PAGE_SIZE,colStart=matrixColPage*TYPE_PAGE_SIZE;
+ const rows=Array.from({length:Math.min(TYPE_PAGE_SIZE,world.n-rowStart)},(_,i)=>rowStart+i),cols=Array.from({length:Math.min(TYPE_PAGE_SIZE,world.n-colStart)},(_,j)=>colStart+j);
+ const longest=Math.max(...rows.flatMap(i=>cols.map(j=>fmt(world.matrix[i][j]).length)));
+ const labelWidth=Math.max(23,name(rows.at(-1)).length*8+15);
+ $('matrix').style.minWidth=cols.length>8||longest>5?`${labelWidth+cols.length*Math.max(43,longest*7+8)}px`:'';
+ $('matrix').innerHTML=`<thead><tr><th class="axis-label" style="width:${labelWidth}px" aria-label="行受力，列施力">行/列</th>${cols.map(i=>`<th scope="col"><span class="matrix-label">${dot(i)}${name(i)}</span></th>`).join('')}</tr></thead><tbody>`+rows.map(i=>`<tr><th scope="row"><span class="matrix-label">${dot(i)}${name(i)}</span></th>${cols.map(j=>{const v=world.matrix[i][j];return `<td><button data-i="${i}" data-j="${j}" class="${pair[0]===i&&pair[1]===j?'selected':''}" style="--cell:${matrixColor(v)}" title="第 ${i+1} 种 ${name(i)} 受第 ${j+1} 种 ${name(j)} 影响：${fmt(v)}" aria-label="${name(i)} 受 ${name(j)} 影响：${fmt(v)}" aria-pressed="${pair[0]===i&&pair[1]===j}">${fmt(v)}</button></td>`}).join('')}</tr>`).join('')+'</tbody>';
+ updateEditor();
+}
+function updateEditor(){const v=world.matrix[pair[0]][pair[1]];$('pair-label').textContent=`${name(pair[0])} 受 ${name(pair[1])} 影响`;$('coefficient').value=String(v);$('coefficient-range').value=v;$('effect').textContent=v>0?'吸引 '+fmt(v):v<0?'排斥 '+fmt(v):'无作用'}
+function setCoefficient(value){if(!Number.isFinite(value))return;const v=clamp(value,-1,1);world.matrix[pair[0]][pair[1]]=v;if($('symmetric').checked)world.matrix[pair[1]][pair[0]]=v;renderMatrix()}
+function setPause(value){if(stepping&&!value)return;paused=value;$('pause').textContent=paused?'▷ 继续':'Ⅱ 暂停';$('status').innerHTML=paused?'<i></i> 已暂停':'<i></i> 正在演化';$('status').classList.toggle('paused',paused);accumulator=0}
+async function advanceManually(n){
+ if(stepping)return;
+ if(!Number.isInteger(n)||n<1||n>3600){notify('前进帧数请输入 1～3,600 的整数');return}
+ setPause(true);pointer=null;stepping=true;cancelStep=false;
+ const controls=Array.from(document.querySelectorAll('.panel button,.panel input,.panel select,.panel textarea,.canvas-tools button,.step-tools button:not(#cancel-step),#step-count')).map(el=>[el,el.disabled]);
+ for(const [el] of controls)el.disabled=true;
+ $('cancel-step').hidden=false;canvas.setAttribute('aria-busy','true');let completed=0;
+ try{
+  while(completed<n&&!cancelStep){
+   const start=performance.now();
+   do{world.step();completed++}while(completed<n&&!cancelStep&&performance.now()-start<8);
+   render();$('step-progress').textContent=`正在前进：${completed} / ${n} 帧`;
+   if(completed<n)await new Promise(resolve=>setTimeout(resolve,0));
+  }
+  $('step-progress').textContent=`${cancelStep?'已停止，':''}已前进 ${completed} 帧（${(completed/60).toFixed(2)} 秒）· 已暂停`;
+ }catch{
+  $('step-progress').textContent=`推进中断：已前进 ${completed} 帧 · 已暂停`;notify('推进未完成，当前画面已保留');
+ }finally{
+  stepping=false;for(const [el,disabled] of controls)el.disabled=disabled;
+  $('cancel-step').hidden=true;canvas.removeAttribute('aria-busy');last=0;setPause(true);render();
+ }
+}
+function count(){const n=world.particles.length;$('count').textContent=n.toLocaleString();$('empty').hidden=n!==0}
+function resize(){const b=canvas.getBoundingClientRect(),dpr=Math.min(devicePixelRatio||1,2),oldW=world.width,oldH=world.height;world.width=b.width;world.height=b.height;canvas.width=Math.round(b.width*dpr);canvas.height=Math.round(b.height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);for(const p of world.particles){p.x=p.x/oldW*world.width;p.y=p.y/oldH*world.height}ctx.fillStyle='#090e14';ctx.fillRect(0,0,b.width,b.height);render()}
+function render(){
+ const w=world.width,h=world.height;ctx.fillStyle=$('trails').checked&&!paused?'rgba(9,14,20,0.25)':'#090e14';ctx.fillRect(0,0,w,h);
+ const groups=new Map();for(const p of world.particles){if(!groups.has(p.type))groups.set(p.type,[]);groups.get(p.type).push(p)}
+ for(const [type,particles] of groups){ctx.fillStyle=colors[type];ctx.beginPath();for(const p of particles){ctx.moveTo(p.x+1.8,p.y);ctx.arc(p.x,p.y,1.8,0,Math.PI*2)}ctx.fill()}
+}
+function sprinkle(){if(!pointer)return;for(let i=0;i<3;i++){const a=Math.random()*Math.PI*2,r=Math.sqrt(Math.random())*16;world.add(pointer.x+Math.cos(a)*r,pointer.y+Math.sin(a)*r,chosen<0?Math.floor(Math.random()*world.n):chosen)}count();if(world.particles.length===LIMIT){pointer=null;notify('已达到 1,800 颗粒子上限')}}
+function frame(time){
+ const elapsed=last?Math.min(time-last,250):1000/60;last=time;
+ if(!paused){
+  const frameMs=1000/60,start=performance.now();
+  // Fixed physics steps keep the same rules at every playback rate. Limit
+  // outstanding work so slow devices stay responsive instead of building debt.
+  accumulator=Math.min(accumulator+elapsed*speed,Math.max(frameMs,250*speed));
+  let steps=0;
+  while(accumulator+1e-7>=frameMs&&steps<150){world.step();accumulator=Math.max(0,accumulator-frameMs);steps++;if(performance.now()-start>=12)break}
+ }
+ if(pointer&&time-brushTime>35){sprinkle();brushTime=time}
+ render();frames++;if(time-lastFps>500){$('fps').textContent=Math.round(frames*1000/(time-lastFps));frames=0;lastFps=time}requestAnimationFrame(frame);
+}
+$('palette').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;chosen=Number(b.dataset.type);if(chosen>=0)colorType=chosen;palette()});
+$('type-page').onchange=e=>{typePage=Number(e.target.value);palette()};
+$('color-type').onchange=e=>{const index=e.target.valueAsNumber-1;if(!Number.isInteger(index)||index<0||index>=world.n){updateColorEditor();notify(`请输入 1～${world.n} 的粒子编号`);return}colorType=index;chosen=index;typePage=Math.floor(index/TYPE_PAGE_SIZE);palette()};
+$('color-type').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();e.target.blur()}};
+$('type-color').oninput=e=>setTypeColor(e.target.value);
+$('color-presets').innerHTML=BASE_COLORS.map((color,i)=>`<button type="button" data-color="${color}" style="--c:${color}" aria-label="设为${['红','橙','黄','绿','青','蓝','紫'][i]}色"><span class="dot"></span>${['红','橙','黄','绿','青','蓝','紫'][i]}</button>`).join('');
+$('color-presets').onclick=e=>{const button=e.target.closest('button');if(button)setTypeColor(button.dataset.color)};
+$('auto-colors').onclick=()=>{colorOverrides=Array(world.n).fill(null);refreshColors();notify('所有粒子已恢复自动彩虹配色')};
+$('matrix-row-page').onchange=e=>{matrixRowPage=Number(e.target.value);renderMatrix()};
+$('matrix-col-page').onchange=e=>{matrixColPage=Number(e.target.value);renderMatrix()};
+$('matrix').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;pair=[Number(b.dataset.i),Number(b.dataset.j)];renderMatrix()});
+$('coefficient').addEventListener('change',e=>setCoefficient(e.target.valueAsNumber));
+$('coefficient-range').addEventListener('input',e=>setCoefficient(Number(e.target.value)));
+$('symmetric').addEventListener('change',e=>{if(e.target.checked){for(let i=0;i<world.n;i++)for(let j=0;j<i;j++)world.matrix[i][j]=world.matrix[j][i];renderMatrix();notify('已统一双向系数；上三角数值同步至下三角')}});
+function candidateError(message=''){$('random-values-error').textContent=message;$('random-values-error').hidden=!message;$('random-values').setAttribute('aria-invalid',String(!!message))}
+function candidatePool(){
+ if(!$('restrict-random').checked)return null;
+ try{const values=parseCandidateValues($('random-values').value);randomValues=values;candidateError();return values}catch(error){candidateError(error.message);throw error}
+}
+$('restrict-random').onchange=()=>{const enabled=$('restrict-random').checked;$('random-values').disabled=!enabled;if(enabled){try{candidatePool()}catch{}}else{$('random-values').value=randomValues.join(', ');candidateError()}};
+$('random-values').oninput=()=>{try{candidatePool()}catch{}};
+$('random-rules').onclick=()=>{try{world.matrix=createMatrix(world.n,Math.random,$('symmetric').checked,candidatePool());renderMatrix();notify($('restrict-random').checked?'已从候选列表抽取新的规则':'新的相遇规则已生成')}catch(error){notify(error.message)}};
+$('zero-rules').onclick=()=>{world.matrix=Array.from({length:world.n},()=>Array(world.n).fill(0));renderMatrix();notify('全部作用归零，粒子会因阻尼逐渐停下')};
+$('scatter').onclick=()=>{const raw=$('amount').valueAsNumber;if(!Number.isFinite(raw)){notify('请输入 1 到 1,800 之间的投放数量');return}const n=Math.round(clamp(raw,1,LIMIT));$('amount').value=n;const before=world.particles.length;world.scatter(n,chosen);count();notify(`撒下 ${world.particles.length-before} 颗粒子${world.particles.length===LIMIT?'，已到数量上限':''}`)};
+$('clear').onclick=()=>{world.particles=[];count();ctx.clearRect(0,0,canvas.width,canvas.height);notify('画布已清空，作用规则已保留')};
+$('reset').onclick=()=>{const n=world.particles.length||600;world.particles=[];world.scatter(n);count();notify('已按当前规则重新撒布')};
+$('pause').onclick=()=>setPause(!paused);
+$('step-frame').onclick=()=>advanceManually(1);
+$('step-second').onclick=()=>advanceManually(60);
+$('step-n').onclick=()=>advanceManually($('step-count').valueAsNumber);
+$('step-count').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();advanceManually(e.target.valueAsNumber)}};
+$('cancel-step').onclick=()=>cancelStep=true;
+$('species').max=MAX_TYPES;$('species-hint').textContent=`输入 1～${MAX_TYPES.toLocaleString()}，按回车或点别处生效。颜色自动细分，种类较多时分页显示。`;
+$('species').onchange=e=>{const n=e.target.valueAsNumber;if(!Number.isInteger(n)||n<1||n>MAX_TYPES){e.target.value=world.n;notify(`粒子种类数请输入 1～${MAX_TYPES.toLocaleString()} 的整数`);return}const old=world.matrix;let generated;try{generated=n>world.n?createMatrix(n,Math.random,$('symmetric').checked,candidatePool()):null}catch(error){e.target.value=world.n;notify(error.message);return}world.n=n;world.matrix=Array.from({length:n},(_,i)=>Array.from({length:n},(_,j)=>old[i]?.[j]??generated[i][j]));world.particles=world.particles.filter(p=>p.type<n);if(chosen>=n)chosen=-1;pair=[Math.min(pair[0],n-1),Math.min(pair[1],n-1)];if($('symmetric').checked)for(let i=0;i<n;i++)for(let j=0;j<i;j++)world.matrix[i][j]=world.matrix[j][i];colorOverrides=Array.from({length:n},(_,i)=>colorOverrides[i]??null);colors=generateColors(n,colorOverrides);palette();renderMatrix();count()};
+$('species').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();e.target.blur()}};
+for(const [id,property] of [['radius','range'],['strength','strength']])$(id).oninput=e=>{const v=Number(e.target.value);world[property]=v;$(id+'-value').textContent=id==='radius'?v:v.toFixed(1)+'×'};
+function updateSpeedUI(){
+ const fps=Math.round(speed*60*100)/100;$('speed').value=fps;$('speed-value').textContent=speed.toFixed(2)+'×';
+ document.querySelectorAll('[data-fps]').forEach(button=>button.setAttribute('aria-pressed',Number(button.dataset.fps)===fps));
+}
+function setRunRate(fps){speed=fps/60;accumulator=0;last=0;updateSpeedUI()}
+$('speed').oninput=e=>{const fps=e.target.valueAsNumber;if(Number.isFinite(fps)&&fps>=1&&fps<=600){speed=fps/60;accumulator=0;$('speed-value').textContent=speed.toFixed(2)+'×';document.querySelectorAll('[data-fps]').forEach(button=>button.setAttribute('aria-pressed',Number(button.dataset.fps)===fps))}};
+$('speed').onchange=e=>{const fps=e.target.valueAsNumber;if(!Number.isFinite(fps)||fps<1||fps>600){updateSpeedUI();notify('运行速度请输入 1～600 帧/秒');return}setRunRate(fps)};
+$('speed').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();e.target.blur()}};
+document.querySelectorAll('[data-fps]').forEach(button=>button.onclick=()=>setRunRate(Number(button.dataset.fps)));
+$('defaults').onclick=()=>{world.range=100;world.strength=1;setRunRate(60);for(const [id,v] of [['radius',100],['strength',1]]){$(id).value=v;$(id+'-value').textContent=id==='radius'?v:'1.0×'}notify('世界参数已恢复默认')};
+function locate(e){const r=canvas.getBoundingClientRect();return {x:clamp(e.clientX-r.left,0,world.width),y:clamp(e.clientY-r.top,0,world.height)}}
+canvas.onpointerdown=e=>{if(e.button!==0||stepping)return;canvas.focus({preventScroll:true});canvas.setPointerCapture(e.pointerId);pointer=locate(e);sprinkle()};canvas.onpointermove=e=>{if(pointer)pointer=locate(e)};canvas.onpointerup=canvas.onpointercancel=canvas.onlostpointercapture=()=>pointer=null;
+canvas.onkeydown=e=>{if(e.code==='Space'){e.preventDefault();setPause(!paused)}};
+$('help').onclick=()=>$('help-dialog').showModal();$('close-help').onclick=$('got-it').onclick=()=>$('help-dialog').close();
+document.addEventListener('visibilitychange',()=>{last=0;accumulator=0;pointer=null});
+let library=[],storageReady=true;
+function currentRule(title){return validateRule({name:title,n:world.n,matrix:world.matrix,range:world.range,strength:world.strength,speed,symmetric:$('symmetric').checked,trails:$('trails').checked,restrictRandom:$('restrict-random').checked,randomValues:candidatePool()??randomValues,colorOverrides})}
+function ruleName(){return $('rule-name').value.trim()||`粒子规则 ${library.length+1}`}
+function selectedRule(){return library.find(rule=>rule.id===$('saved-rules').value)}
+function updateLibrary(selected=''){
+ const select=$('saved-rules');select.replaceChildren(new Option('选择一份收藏',''));
+ for(const rule of library)select.add(new Option(rule.name,rule.id));
+ select.value=selected;$('saved-count').textContent=`${library.length} 份收藏`;updateRuleActions();
+}
+function updateRuleActions(){const selected=!!selectedRule();$('load-rule').disabled=$('delete-rule').disabled=!selected;$('export-rule').textContent=selected?'导出所选':'导出当前'}
+function persistLibrary(next){
+ if(!storageReady){notify('本地规则库不可用，请使用“导出当前”保存文件');return false}
+ try{writeRuleLibrary(localStorage,next);library=next;return true}catch{notify('本地保存失败，请导出规则文件备份');$('rule-storage-note').textContent='浏览器存储不可用或已满，规则尚未保存。请使用导出文件备份。';return false}
+}
+function addSavedRule(rule){
+ const id=globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random().toString(36).slice(2)}`;
+ const entry={id,...rule};
+ if(!persistLibrary([...library,entry]))return false;
+ updateLibrary(id);return true;
+}
+$('save-rule-form').onsubmit=e=>{e.preventDefault();try{const rule=currentRule(ruleName());if(addSavedRule(rule)){$('rule-name').value=rule.name;notify(`已保存「${rule.name}」`)}}catch(error){notify(error.message)}};
+$('saved-rules').onchange=updateRuleActions;
+$('load-rule').onclick=()=>{
+ const saved=selectedRule();if(!saved)return;const rule=validateRule(saved);
+ world.n=rule.n;world.matrix=rule.matrix;world.range=rule.range;world.strength=rule.strength;speed=rule.speed;
+ $('species').value=rule.n;$('symmetric').checked=rule.symmetric;$('trails').checked=rule.trails;$('rule-name').value=rule.name;
+ randomValues=(rule.randomValues??defaultRandomValues).slice();$('restrict-random').checked=rule.restrictRandom??false;$('random-values').value=randomValues.join(', ');$('random-values').disabled=!$('restrict-random').checked;candidateError();
+ colorOverrides=rule.colorOverrides?.slice()??Array(rule.n).fill(null);colors=generateColors(rule.n,colorOverrides);colorType=0;typePage=0;matrixRowPage=0;matrixColPage=0;
+ for(const [id,value] of [['radius',rule.range],['strength',rule.strength]]){$(id).value=value;$(id+'-value').textContent=id==='radius'?value:value.toFixed(1)+'×'}
+ updateSpeedUI();
+ for(const p of world.particles){p.type%=rule.n;p.vx=p.vy=0}
+ if(chosen>=rule.n)chosen=-1;pair=[0,0];accumulator=0;palette();renderMatrix();count();notify(`已读取「${rule.name}」`);
+};
+$('delete-rule').onclick=()=>{const rule=selectedRule();if(!rule)return;if(!confirm(`删除收藏「${rule.name}」？当前画布的规则会保留。`))return;if(persistLibrary(library.filter(item=>item.id!==rule.id))){updateLibrary();notify('已删除这份收藏')}};
+$('export-rule').onclick=()=>{
+ let rule;try{rule=validateRule(selectedRule()||currentRule(ruleName()))}catch(error){notify(error.message);return}
+ const content=JSON.stringify({format:'particle-life-rule',version:1,rule},null,2),name=rule.name.replace(/[<>:"/\\|?*\u0000-\u001f]/g,'_').slice(0,60)+'.json';
+ if(typeof GameHubBridge!=='undefined'){try{notify(GameHubBridge.saveFile(name,content)?'已受理，请选择保存位置；保存结果由大厅提示':'暂时无法导出，请重试')}catch{notify('暂时无法导出，请重试')}return}
+ const blob=new Blob([content],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+ a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000);notify('规则文件已导出');
+};
+$('import-rule').onclick=()=>$('import-rule-file').click();
+$('import-rule-file').onchange=async e=>{
+ const file=e.target.files[0];if(!file)return;
+ try{if(file.size>64*1024*1024)throw new Error('规则文件超过 64 MB，请选择本模拟器导出的 JSON 文件');const rule=parseRuleFile(await file.text());if(addSavedRule(rule))notify(`已导入「${rule.name}」，点击读取即可使用`)}catch(error){notify(error.message)}finally{e.target.value=''}
+};
+try{library=readRuleLibrary(localStorage)}catch{storageReady=false;$('rule-storage-note').textContent='本地规则库暂时无法读取。为保留原数据，请先用“导出当前”保存文件，再检查浏览器存储设置。'}
+updateLibrary();
+// Start with moderate attraction between neighbours and repulsion within a type.
+world.matrix=Array.from({length:6},(_,i)=>Array.from({length:6},(_,j)=>i===j?-.35:j===(i+1)%6?.72:j===(i+5)%6?.25:-.18));
+palette();renderMatrix();new ResizeObserver(resize).observe(canvas);resize();world.scatter(600);count();requestAnimationFrame(frame);
+</script></body></html>

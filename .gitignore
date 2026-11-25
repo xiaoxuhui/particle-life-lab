@@ -1,0 +1,6 @@
+node_modules/
+.site-workflow/
+evidence/
+*.log
+.openai/
+qa/

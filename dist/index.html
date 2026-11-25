@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0c1015"><meta name="description" content="撒下粒子，调整吸引与排斥，观察微小规则如何形成不断变化的图案。"><title>粒子之间 · 互动实验台</title><link rel="stylesheet" href="style.css"></head>
+<body>
+<header class="topbar"><div class="brand"><span class="brand-icon" aria-hidden="true">✳</span><div><h1>粒子之间</h1><span class="brand-sub">PARTICLE INTERACTION LAB</span></div></div><div class="top-note">简单的规则，流动的世界。</div><button id="help" class="icon-button" aria-label="使用说明">?</button></header>
+<main>
+ <section class="universe" aria-label="粒子模拟区域">
+  <canvas id="canvas" aria-label="粒子画布，按住并拖动可撒下粒子" tabindex="0"></canvas>
+  <div class="canvas-top"><span class="live-label" id="status"><i></i> 正在演化</span><div class="stats"><span id="count">0</span> 粒子 <span class="divider">/</span> <span id="fps">60</span> 画面帧/秒</div></div>
+  <div class="canvas-caption"><span class="eyebrow">微观世界 · 自由实验</span><h2>让关系，<br>自己生长。</h2><p>按住画布，撒下一片粒子。</p></div>
+  <div id="empty" hidden>这里还很安静。<br><span>点“随机撒下”或在画布上拖动，开始实验。</span></div>
+  <div class="canvas-bottom"><div class="playback-row"><div class="canvas-tools"><button id="pause" class="primary">Ⅱ 暂停</button><button id="reset" title="保留规则，重新随机分布粒子">重新撒布</button><button id="clear">清空</button></div><span class="edge-note">边界相连 · 循环空间</span></div>
+   <div class="step-tools" role="group" aria-label="手动推进模拟"><button id="step-frame">前进 1 帧</button><button id="step-second">前进 1 秒</button><div class="step-custom"><label class="sr-only" for="step-count">前进帧数 N</label><input id="step-count" type="number" min="1" max="3600" step="1" value="60" aria-label="前进帧数 N"><button id="step-n">前进 N 帧</button></div><button id="cancel-step" hidden>停止推进</button></div>
+   <p id="step-progress" class="step-note" role="status" aria-live="polite">1 秒 = 60 帧 · 手动推进不受速度倍率影响</p>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+ </section>
+ <aside class="panel">
+  <section class="control-section"><div class="section-heading"><h2>撒下粒子</h2><span class="quiet">播种你的世界</span></div>
+   <div class="field-row"><label for="species">粒子种类数</label><div class="species-input"><input id="species" type="number" min="1" step="1" value="6" aria-describedby="species-hint"><span>种</span></div></div>
+   <p id="species-hint" class="hint"></p>
+   <div class="palette" id="palette" role="group" aria-label="选择投放的粒子种类"></div>
+   <div id="type-pagination" class="field-row" hidden><label for="type-page">种类分页</label><select id="type-page"></select></div>
+   <details class="color-settings"><summary>粒子颜色设置</summary><div class="field-row color-editor"><label for="color-type">第几种粒子</label><input id="color-type" type="number" min="1" step="1" value="1"></div><div class="field-row color-editor"><label id="color-type-label" for="type-color">A 的颜色</label><input id="type-color" type="color" value="#ff5555" aria-label="所选粒子的颜色"></div><div id="color-presets" class="color-presets" role="group" aria-label="七种基本颜色"></div><button id="auto-colors" class="text-button">全部恢复自动配色</button><p class="hint">红橙黄绿青蓝紫；种类增多时自动细分整个色环，也可单独指定颜色。</p></details>
+   <div class="scatter-row"><label class="amount-label">投放数量<input id="amount" type="number" value="150" min="1" max="1800" step="1"></label><button id="scatter" class="accent">✳ 随机撒下</button></div>
+   <p class="hint">随机撒布到整个画布，也可按住画布连续投放。</p>
+  </section>
+  <section class="control-section matrix-section"><div class="section-heading"><h2>作用矩阵</h2><button id="random-rules" class="text-button">随机规则</button></div>
+   <p class="hint matrix-hint">行是受力粒子，列是影响它的粒子。点击格子编辑。</p>
+   <div id="matrix-pagination" class="matrix-pagination" hidden><div class="field-row"><label for="matrix-row-page">受力粒子（行）</label><select id="matrix-row-page"></select></div><div class="field-row"><label for="matrix-col-page">影响粒子（列）</label><select id="matrix-col-page"></select></div><p id="matrix-page-note" class="hint"></p></div>
+   <div class="matrix-scroll"><table id="matrix" aria-label="粒子吸引与排斥作用表"></table></div>
+   <div class="legend"><span>−1 排斥</span><div class="gradient" aria-hidden="true"></div><span>+1 吸引</span></div><div class="zero-label">0 无作用</div>
+   <div class="editor"><div class="field-row"><label id="pair-label" for="coefficient">A 受 A 影响</label><input type="number" id="coefficient" min="-1" max="1" step="any" value="0"></div><input id="coefficient-range" aria-label="选中粒子对的作用强度" type="range" min="-1" max="1" step="0.01" value="0"><div class="range-marks"><span>排斥</span><span id="effect">无作用</span><span>吸引</span></div></div>
+   <div class="matrix-options"><label class="checkbox"><input id="symmetric" type="checkbox">双向相同</label><button id="zero-rules" class="text-button">全部归零</button></div>
+   <div class="random-options"><label class="checkbox"><input id="restrict-random" type="checkbox">仅从列表中随机</label><label for="random-values" class="candidate-label">随机规则候选值</label><textarea id="random-values" rows="2" maxlength="4000" spellcheck="false" disabled aria-describedby="random-values-hint random-values-error">-1, -0.5, 0, 0.5, 1</textarea><p id="random-values-hint" class="hint">每个数必须在 −1～1 之间，用逗号、空格或换行分隔。启用后点“随机规则”抽取，新增种类的系数也从列表抽取。</p><p id="random-values-error" class="candidate-error" role="alert" hidden></p></div>
+  </section>
+  <section class="control-section saved-rules"><div class="section-heading"><h2>我的规则</h2><span id="saved-count" class="quiet">0 份收藏</span></div>
+   <form id="save-rule-form" class="save-row"><label class="sr-only" for="rule-name">规则名称</label><input id="rule-name" type="text" maxlength="80" placeholder="给这套规则起个名字" autocomplete="off"><button id="save-rule" class="accent" type="submit">保存当前</button></form>
+   <label class="sr-only" for="saved-rules">已保存的规则</label><select id="saved-rules"><option value="">选择一份收藏</option></select>
+   <div class="rule-actions"><button id="load-rule" disabled>读取</button><button id="export-rule">导出当前</button><button id="import-rule">导入</button><button id="delete-rule" disabled>删除</button></div>
+   <input id="import-rule-file" class="sr-only" type="file" accept=".json,application/json" tabindex="-1">
+   <p id="rule-storage-note" class="hint" role="status">保存种类、作用矩阵和世界参数。收藏留在此浏览器，导出文件可备份或分享；不保存粒子位置。</p>
+  </section>
+  <section class="control-section dynamics"><div class="section-heading"><h2>世界参数</h2><button id="defaults" class="text-button">恢复默认</button></div>
+   <label class="slider-label" for="radius">作用距离 <output id="radius-value">100</output></label><input id="radius" type="range" min="30" max="180" step="5" value="100">
+   <label class="slider-label" for="strength">作用强度 <output id="strength-value">1.0×</output></label><input id="strength" type="range" min="0.1" max="3" step="0.1" value="1">
+   <div class="field-row speed-row"><label for="speed">运行速度 <output id="speed-value">1.00×</output></label><div class="speed-input"><input id="speed" type="number" min="1" max="600" step="any" value="60" aria-describedby="speed-hint"><span>帧/秒</span></div></div>
+   <div class="speed-presets" role="group" aria-label="运行速度方案"><button type="button" data-fps="30" aria-pressed="false">慢速 30</button><button type="button" data-fps="60" aria-pressed="true">正常 60</button><button type="button" data-fps="120" aria-pressed="false">快速 120</button></div>
+   <p id="speed-hint" class="hint">输入 1～600，数值越小越慢，越大越快。粒子较多时，实际速度受设备性能影响。</p>
+   <label class="checkbox trail-option"><input id="trails" type="checkbox" checked>显示运动轨迹</label>
+  </section><footer class="panel-footer">每一次相遇，都由你定义。</footer>
+ </aside>
+</main>
+<dialog id="help-dialog"><button id="close-help" class="close-button" aria-label="关闭使用说明">×</button><span class="eyebrow">从一颗粒子开始</span><h2>探索粒子之间的关系</h2><p>选择一种粒子或“混合”，点击“随机撒下”投放；也可以直接按住画布拖动。画布获得焦点后，按空格暂停或继续。</p><p>作用表中，行是受力粒子，列是影响它的粒子。例如 A 行 B 列，控制 A 如何受到 B 的影响。</p><p><b class="green">正数：吸引</b>，越接近 +1 越绿、吸引越强。<b class="red">负数：排斥</b>，越接近 −1 越红、排斥越强。<b>黑色 0：没有作用</b>，数值接近零时逐渐变黑。粒子的自身颜色只用于区分种类。</p><p>“双向相同”让 A 对 B 和 B 对 A 的系数一致。取消勾选时，两个方向可以不同。粒子带有惯性，归零后会慢慢停下。粒子最多 1,800 颗。</p><button id="got-it" class="primary">开始实验</button></dialog>
+<script type="module" src="app.mjs"></script></body></html>
